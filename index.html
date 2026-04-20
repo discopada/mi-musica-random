@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
-        /* CURSOR DE MONEDA PIXELADA (Inyectado directamente) */
+        /* CURSOR EMOJI MONEDA AMARILLA */
         * {
-            cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32'><text y='25' style='font-size:24px'>🪙</text></svg>"), auto !important;
+            cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' style='font-size:24px'><text y='20'>🪙</text></svg>"), auto !important;
         }
 
         body { 
@@ -65,14 +65,19 @@
         #spotify-container {
             width: 100%;
             height: 80px;
-            background: #222;
-            border: 2px dashed #fff;
+            background: #111;
+            border: 2px dashed #444;
             display: flex;
             align-items: center;
             justify-content: center;
+            color: #444;
+            font-size: 8px;
+            text-align: center;
         }
 
-        iframe { filter: invert(1) grayscale(1) contrast(1.2); }
+        iframe { 
+            filter: invert(1) grayscale(1) contrast(1.2); 
+        }
 
         .decor {
             margin-top: 15px;
@@ -85,31 +90,36 @@
 <body>
 
     <div class="jukebox-8bit">
-        <div id="status-text" class="title blink">INSERT COIN<br>PLAY MUSIC</div>
+        <div id="status-text" class="title blink">INSERT COIN<br>TO START</div>
         
-        <button class="btn-8bit" onclick="shufflePlaylist()">🔀 SHUFFLE</button>
+        <button class="btn-8bit" onclick="insertCoin()">🪙 SHUFFLE</button>
         
         <div id="spotify-container">
-            </div>
+            NO DISC LOADED
+        </div>
 
-        <div class="decor">Discopada System v1.2</div>
+        <div class="decor">Discopada System v2.0</div>
     </div>
 
     <script>
-        // PEGA TU LINK ACÁ
-        const playlistUrl = "https://open.spotify.com/playlist/6FEgbgJL2zeXt7fw2bxFcc?si=1c2de5faaca04bb1"; 
+        // PEGA TU LINK DE PLAYLIST ACÁ
+        const playlistUrl = "https://open.spotify.com/playlist/6FEgbgJL2zeXt7fw2bxFcc?si=8029c9c817984582"; 
 
-        function shufflePlaylist() {
+        function insertCoin() {
             const container = document.getElementById('spotify-container');
             const status = document.getElementById('status-text');
             
             if (playlistUrl.includes("/playlist/")) {
                 const playlistId = playlistUrl.split("/playlist/")[1].split("?")[0];
                 
-                // Cambiamos el texto para guiar al usuario
-                status.innerHTML = "NEW TRACK LOADED<br>PRESS PLAY!";
-                status.style.color = "#ffff00"; // Cambia a amarillo para llamar la atención
+                // Cambiamos el estado visual
+                status.classList.remove('blink');
+                status.innerHTML = "DISC LOADED!<br>PRESS PLAY";
+                status.style.color = "#ffff00";
                 
+                container.style.border = "2px solid #fff";
+                
+                // Cargamos el reproductor recién ahora
                 container.innerHTML = `
                     <iframe 
                         src="https://open.spotify.com/embed/playlist/${playlistId}?utm_source=generator&theme=0" 
@@ -118,8 +128,6 @@
                     </iframe>`;
             }
         }
-
-        window.onload = shufflePlaylist;
     </script>
 </body>
 </html>
