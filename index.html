@@ -2,46 +2,121 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
-        body { background: transparent; margin: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; font-family: 'Courier New', Courier, monospace; }
-        .btn-random { background: #000; color: #fff; border: 1px solid #fff; padding: 10px 20px; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; margin-bottom: 20px; }
-        .btn-random:hover { background: #fff; color: #000; }
-        #wrapper { width: 320px; text-align: center; }
+        body { 
+            background: transparent; 
+            color: #fff; 
+            font-family: 'Press Start 2P', cursive; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            height: 100vh; 
+            margin: 0; 
+            image-rendering: pixelated;
+        }
+
+        /* Contenedor tipo Pantalla de Juego */
+        .jukebox-8bit {
+            width: 260px;
+            height: 200px;
+            background: #000;
+            border: 6px solid #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 8px 8px 0px #555;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* Efecto de parpadeo retro */
+        .title {
+            font-size: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            line-height: 1.5;
+            color: #00ff00; /* Verde monitor viejo */
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        /* Botón estilo Arcade */
+        .btn-8bit {
+            background: #ff0000;
+            color: #fff;
+            border: 4px solid #fff;
+            padding: 10px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 8px;
+            cursor: pointer;
+            box-shadow: 4px 4px 0px #800000;
+            text-transform: uppercase;
+        }
+
+        .btn-8bit:active {
+            box-shadow: 0px 0px 0px;
+            transform: translate(4px, 4px);
+        }
+
+        /* Escondemos el reproductor pero dejamos lo mínimo para el Play */
+        #spotify-container {
+            margin-top: 20px;
+            width: 80px;
+            height: 80px;
+            overflow: hidden;
+            border: 4px solid #fff;
+            filter: grayscale(1) contrast(2);
+            opacity: 0.2;
+            transition: opacity 0.3s;
+        }
+        
+        #spotify-container:hover { opacity: 1; }
+
+        .decor {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            font-size: 8px;
+            color: #555;
+        }
     </style>
 </head>
 <body>
 
-<div id="wrapper">
-    <button class="btn-random" onclick="shufflePlaylist()">🔀 Shuffle Track</button>
-    <div id="display">
+    <div class="jukebox-8bit">
+        <div class="title">INSERT COIN<br>PLAY MUSIC</div>
+        <button class="btn-8bit" onclick="shufflePlaylist()">SHUFFLE</button>
+        <div class="decor">V.1.0</div>
+    </div>
+
+    <div id="spotify-container">
         </div>
-</div>
 
-<script>
-    // PEGA ACÁ EL LINK DE TU PLAYLIST PÚBLICA
-    const playlistUrl = "https://open.spotify.com/playlist/6FEgbgJL2zeXt7fw2bxFcc?si=2d0b438123384ed0"; 
+    <script>
+        // REEMPLAZÁ CON TU LINK
+        const playlistUrl = "https://open.spotify.com/playlist/6FEgbgJL2zeXt7fw2bxFcc?si=a7bdc2547bbc44fe"; 
 
-    function shufflePlaylist() {
-        const display = document.getElementById('display');
-        // Extraemos el ID de la playlist del link
-        const playlistId = playlistUrl.split("/playlist/")[1].split("?")[0];
-        
-        // Usamos el widget oficial de Spotify con el parámetro de random track
-        // Nota: Spotify Shuffle nativo en Embed a veces requiere interacción del usuario
-        display.innerHTML = `
-            <iframe 
-                src="https://open.spotify.com/embed/playlist/${playlistId}?utm_source=generator&theme=0" 
-                width="100%" 
-                height="380" 
-                frameBorder="0" 
-                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-                loading="lazy">
-            </iframe>`;
-    }
+        function shufflePlaylist() {
+            const container = document.getElementById('spotify-container');
+            const playlistId = playlistUrl.split("/playlist/")[1].split("?")[0];
+            
+            container.innerHTML = `
+                <iframe 
+                    src="https://open.spotify.com/embed/playlist/${playlistId}?utm_source=generator&theme=0" 
+                    width="100%" height="80" frameBorder="0" 
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
+                </iframe>`;
+        }
 
-    // Cargar al inicio
-    window.onload = shufflePlaylist;
-</script>
-
+        window.onload = shufflePlaylist;
+    </script>
 </body>
-</html>
+</html
