@@ -4,9 +4,13 @@
     <meta charset="UTF-8">
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
+        /* MONEDA AMARILLA 8-BIT EN BASE64 (Funciona siempre) */
+        :root {
+            --cursor-coin: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH5wUKEiAnS19mXAAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLm3CYwAAAKVJREFUWMPtlLENwyAMRe+D6SInYAtG6SInYAtG6SInYAtG6SInYAtG6SInYAtG6SInYAsG6fInIAnSJRmS/p7E83Is996D976S576S576S576S576S576S576S576S576S576S576S576S576S576S576S576S576S576S576S576S576S576S576S576S576S576S576S576S576S594G+QY9ayZfWv3+pAAAAABJRU5ErkJggg==");
+        }
+
         * {
-            /* Forzamos el cursor de moneda amarilla en toda la interfaz */
-            cursor: url('https://img.icons8.com/pixel-line/32/FAB005/coins.png'), auto !important;
+            cursor: var(--cursor-coin), auto !important;
         }
 
         body { 
@@ -18,6 +22,7 @@
             justify-content: center; 
             height: 100vh; 
             margin: 0; 
+            overflow: hidden;
         }
 
         .jukebox-8bit {
@@ -32,10 +37,10 @@
         }
 
         .title {
-            font-size: 12px;
+            font-size: 11px;
             margin-bottom: 25px;
             text-align: center;
-            color: #00ff00; /* Verde monitor clásico */
+            color: #00ff00;
             line-height: 1.6;
             animation: blink 1s infinite;
         }
@@ -56,7 +61,6 @@
             text-transform: uppercase;
             width: 100%;
             margin-bottom: 20px;
-            transition: none;
         }
 
         .btn-8bit:active {
@@ -69,11 +73,12 @@
             height: 80px;
             background: #222;
             border: 2px dashed #fff;
-            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         iframe {
-            /* Invertimos colores para que pegue con el modo oscuro */
             filter: invert(1) grayscale(1) contrast(1.2);
         }
 
@@ -99,28 +104,29 @@
     </div>
 
     <script>
-        // REEMPLAZA EL LINK DE ABAJO CON TU PLAYLIST PÚBLICA
-        const playlistUrl = "https://open.spotify.com/playlist/6FEgbgJL2zeXt7fw2bxFcc?si=23ad5b4e2bc64ea4"; 
+        // 
+        const playlistUrl = "https://open.spotify.com/playlist/6FEgbgJL2zeXt7fw2bxFcc?si=d082899dd3f94825"; 
 
         function shufflePlaylist() {
             const container = document.getElementById('spotify-container');
             
-            // Verificamos que el link tenga el formato correcto
             if (playlistUrl.includes("/playlist/")) {
                 const playlistId = playlistUrl.split("/playlist/")[1].split("?")[0];
                 
+                // IMPORTANTE: Link HTTPS seguro de Spotify
                 container.innerHTML = `
                     <iframe 
-                        src="https://support.spotify.com/us/article/shuffle-play/4{playlistId}?utm_source=generator&theme=0" 
-                        width="100%" height="80" frameBorder="0" 
+                        src="https://open.spotify.com/embed/playlist/${playlistId}?utm_source=generator&theme=0" 
+                        width="100%" 
+                        height="80" 
+                        frameBorder="0" 
                         allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
                     </iframe>`;
             } else {
-                container.innerHTML = "<p style='font-size:8px'>Error: URL no válida</p>";
+                container.innerHTML = "<p style='font-size:8px; color:red;'>URL ERROR</p>";
             }
         }
 
-        // Carga la primera canción al abrir
         window.onload = shufflePlaylist;
     </script>
 </body>
