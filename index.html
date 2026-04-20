@@ -4,13 +4,9 @@
     <meta charset="UTF-8">
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
-        /* MONEDA AMARILLA 8-BIT EN BASE64 (Funciona siempre) */
-        :root {
-            --cursor-coin: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH5wUKEiAnS19mXAAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLm3CYwAAAKVJREFUWMPtlLENwyAMRe+D6SInYAtG6SInYAtG6SInYAtG6SInYAtG6SInYAtG6SInYAsG6fInIAnSJRmS/p7E83Is996D976S576S576S576S576S576S576S576S576S576S576S576S576S576S576S576S576S576S576S576S576S576S576S576S576S576S576S576S576S594G+QY9ayZfWv3+pAAAAABJRU5ErkJggg==");
-        }
-
+        /* CURSOR DE MONEDA PIXELADA (Inyectado directamente) */
         * {
-            cursor: var(--cursor-coin), auto !important;
+            cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32'><text y='25' style='font-size:24px'>🪙</text></svg>"), auto !important;
         }
 
         body { 
@@ -42,13 +38,11 @@
             text-align: center;
             color: #00ff00;
             line-height: 1.6;
-            animation: blink 1s infinite;
+            min-height: 40px;
         }
 
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
+        .blink { animation: blinkAnim 1s infinite; }
+        @keyframes blinkAnim { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
         .btn-8bit {
             background: #ff0000;
@@ -78,9 +72,7 @@
             justify-content: center;
         }
 
-        iframe {
-            filter: invert(1) grayscale(1) contrast(1.2);
-        }
+        iframe { filter: invert(1) grayscale(1) contrast(1.2); }
 
         .decor {
             margin-top: 15px;
@@ -93,37 +85,37 @@
 <body>
 
     <div class="jukebox-8bit">
-        <div class="title">INSERT COIN<br>PLAY MUSIC</div>
+        <div id="status-text" class="title blink">INSERT COIN<br>PLAY MUSIC</div>
         
         <button class="btn-8bit" onclick="shufflePlaylist()">🔀 SHUFFLE</button>
         
         <div id="spotify-container">
             </div>
 
-        <div class="decor">Discopada System v1.1</div>
+        <div class="decor">Discopada System v1.2</div>
     </div>
 
     <script>
-        // 
-        const playlistUrl = "https://open.spotify.com/playlist/6FEgbgJL2zeXt7fw2bxFcc?si=d082899dd3f94825"; 
+        // PEGA TU LINK ACÁ
+        const playlistUrl = "https://open.spotify.com/playlist/6FEgbgJL2zeXt7fw2bxFcc?si=1c2de5faaca04bb1"; 
 
         function shufflePlaylist() {
             const container = document.getElementById('spotify-container');
+            const status = document.getElementById('status-text');
             
             if (playlistUrl.includes("/playlist/")) {
                 const playlistId = playlistUrl.split("/playlist/")[1].split("?")[0];
                 
-                // IMPORTANTE: Link HTTPS seguro de Spotify
+                // Cambiamos el texto para guiar al usuario
+                status.innerHTML = "NEW TRACK LOADED<br>PRESS PLAY!";
+                status.style.color = "#ffff00"; // Cambia a amarillo para llamar la atención
+                
                 container.innerHTML = `
                     <iframe 
                         src="https://open.spotify.com/embed/playlist/${playlistId}?utm_source=generator&theme=0" 
-                        width="100%" 
-                        height="80" 
-                        frameBorder="0" 
+                        width="100%" height="80" frameBorder="0" 
                         allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
                     </iframe>`;
-            } else {
-                container.innerHTML = "<p style='font-size:8px; color:red;'>URL ERROR</p>";
             }
         }
 
