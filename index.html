@@ -9,56 +9,48 @@
             color: #fff; 
             font-family: 'Press Start 2P', cursive; 
             display: flex; 
-            flex-direction: column; 
             align-items: center; 
             justify-content: center; 
             height: 100vh; 
             margin: 0; 
-            image-rendering: pixelated;
         }
 
-        /* Contenedor tipo Pantalla de Juego */
         .jukebox-8bit {
-            width: 260px;
-            height: 200px;
+            width: 320px;
             background: #000;
             border: 6px solid #fff;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
             box-shadow: 8px 8px 0px #555;
             padding: 20px;
-            position: relative;
         }
 
-        /* Efecto de parpadeo retro */
         .title {
             font-size: 10px;
             margin-bottom: 20px;
             text-align: center;
-            line-height: 1.5;
-            color: #00ff00; /* Verde monitor viejo */
+            color: #00ff00;
             animation: blink 1s infinite;
         }
 
         @keyframes blink {
-            0% { opacity: 1; }
+            0%, 100% { opacity: 1; }
             50% { opacity: 0; }
-            100% { opacity: 1; }
         }
 
-        /* Botón estilo Arcade */
         .btn-8bit {
             background: #ff0000;
             color: #fff;
             border: 4px solid #fff;
             padding: 10px;
             font-family: 'Press Start 2P', cursive;
-            font-size: 8px;
+            font-size: 10px;
             cursor: pointer;
             box-shadow: 4px 4px 0px #800000;
             text-transform: uppercase;
+            width: 100%;
+            margin-bottom: 20px;
         }
 
         .btn-8bit:active {
@@ -66,48 +58,38 @@
             transform: translate(4px, 4px);
         }
 
-        /* Escondemos el reproductor pero dejamos lo mínimo para el Play */
+        /* Ahora el reproductor es parte de la pantalla */
         #spotify-container {
-            margin-top: 20px;
-            width: 80px;
+            width: 100%;
             height: 80px;
+            background: #222;
+            border: 2px dashed #fff;
             overflow: hidden;
-            border: 4px solid #fff;
-            filter: grayscale(1) contrast(2);
-            opacity: 0.2;
-            transition: opacity 0.3s;
         }
-        
-        #spotify-container:hover { opacity: 1; }
 
-        .decor {
-            position: absolute;
-            bottom: 5px;
-            right: 5px;
-            font-size: 8px;
-            color: #555;
+        iframe {
+            filter: invert(1) grayscale(1) contrast(1.5); /* Estética retro */
         }
     </style>
 </head>
 <body>
 
     <div class="jukebox-8bit">
-        <div class="title">INSERT COIN<br>PLAY MUSIC</div>
-        <button class="btn-8bit" onclick="shufflePlaylist()">SHUFFLE</button>
-        <div class="decor">V.1.0</div>
+        <div class="title">MUSIC SELECTOR<br>V.1.0</div>
+        <button class="btn-8bit" onclick="shufflePlaylist()">🔀 NEW TRACK</button>
+        
+        <div id="spotify-container">
+            </div>
     </div>
 
-    <div id="spotify-container">
-        </div>
-
     <script>
-        // REEMPLAZÁ CON TU LINK
-        const playlistUrl = "https://open.spotify.com/playlist/6FEgbgJL2zeXt7fw2bxFcc?si=a7bdc2547bbc44fe"; 
+        const playlistUrl = "https://open.spotify.com/playlist/6FEgbgJL2zeXt7fw2bxFcc?si=096af9006ea2460b"; 
 
         function shufflePlaylist() {
             const container = document.getElementById('spotify-container');
             const playlistId = playlistUrl.split("/playlist/")[1].split("?")[0];
             
+            // Forzamos que cargue una canción random de la lista
             container.innerHTML = `
                 <iframe 
                     src="https://open.spotify.com/embed/playlist/${playlistId}?utm_source=generator&theme=0" 
@@ -119,4 +101,4 @@
         window.onload = shufflePlaylist;
     </script>
 </body>
-</html
+</html>
