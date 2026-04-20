@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { background: transparent; margin: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; font-family: 'Courier New', Courier, monospace; }
+        .btn-random { background: #000; color: #fff; border: 1px solid #fff; padding: 10px 20px; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; margin-bottom: 20px; }
+        .btn-random:hover { background: #fff; color: #000; }
+        #wrapper { width: 320px; text-align: center; }
+    </style>
+</head>
+<body>
+
+<div id="wrapper">
+    <button class="btn-random" onclick="shufflePlaylist()">🔀 Shuffle Track</button>
+    <div id="display">
+        </div>
+</div>
+
+<script>
+    // PEGA ACÁ EL LINK DE TU PLAYLIST PÚBLICA
+    const playlistUrl = "https://open.spotify.com/playlist/6FEgbgJL2zeXt7fw2bxFcc?si=2d0b438123384ed0"; 
+
+    function shufflePlaylist() {
+        const display = document.getElementById('display');
+        // Extraemos el ID de la playlist del link
+        const playlistId = playlistUrl.split("/playlist/")[1].split("?")[0];
+        
+        // Usamos el widget oficial de Spotify con el parámetro de random track
+        // Nota: Spotify Shuffle nativo en Embed a veces requiere interacción del usuario
+        display.innerHTML = `
+            <iframe 
+                src="https://open.spotify.com/embed/playlist/${playlistId}?utm_source=generator&theme=0" 
+                width="100%" 
+                height="380" 
+                frameBorder="0" 
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                loading="lazy">
+            </iframe>`;
+    }
+
+    // Cargar al inicio
+    window.onload = shufflePlaylist;
+</script>
+
+</body>
+</html>
